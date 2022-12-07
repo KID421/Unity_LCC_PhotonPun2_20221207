@@ -12,7 +12,7 @@ namespace KID
     /// </summary>
     public class LobbyManager : MonoBehaviourPunCallbacks
     {
-        #region 資料
+        #region 大廳資料
         private TMP_InputField inputFieldPlayerName;
         private TMP_InputField inputFieldCreateRoomName;
         private TMP_InputField inputFieldJoinRoomName;
@@ -25,20 +25,40 @@ namespace KID
         private string nameJoinRoom;
         #endregion
 
+        private CanvasGroup groupRoom;
+        private TextMeshProUGUI textRoomName;
+        private Transform traPlayerList;
+        private Button btnLeaveRoom;
+
         [SerializeField, Header("房間最大人數"), Range(2, 20)]
         private byte maxPlayer = 10;
+        [SerializeField, Header("文字房間內玩家")]
+        private GameObject goTextPlayerInRoom;
 
         private void Awake()
         {
-            FindObject();
+            FindLobbyObject();
+            FindRoomOjbect();
 
             PhotonNetwork.ConnectUsingSettings();
         }
 
         /// <summary>
-        /// 尋找物件
+        /// 尋找房間物件
         /// </summary>
-        private void FindObject()
+        private void FindRoomOjbect()
+        {
+            groupRoom = GameObject.Find("畫布房間").GetComponent<CanvasGroup>();
+            textRoomName = GameObject.Find("文字房間名稱").GetComponent<TextMeshProUGUI>();
+            traPlayerList = GameObject.Find("玩家名稱清單").transform;
+            btnLeaveRoom = GameObject.Find("按鈕退出房間").GetComponent<Button>();
+        }
+
+        #region 大廳物件處理
+        /// <summary>
+        /// 尋找大廳物件
+        /// </summary>
+        private void FindLobbyObject()
         {
             inputFieldPlayerName = GameObject.Find("輸入欄位玩家名稱").GetComponent<TMP_InputField>();
             inputFieldCreateRoomName = GameObject.Find("輸入欄位創建房間名稱").GetComponent<TMP_InputField>();
@@ -49,7 +69,7 @@ namespace KID
             groupBlackAndTip = GameObject.Find("黑色底圖").GetComponent<CanvasGroup>();
 
             GetInputFieldText();
-            ButtonClickEvent();
+            LobbyButtonClickEvent();
         }
 
         /// <summary>
@@ -71,12 +91,13 @@ namespace KID
         /// <summary>
         /// 按鈕點擊事件
         /// </summary>
-        private void ButtonClickEvent()
+        private void LobbyButtonClickEvent()
         {
             btnCreateRoom.onClick.AddListener(CreateRoom);
             btnJoinRoom.onClick.AddListener(JoinRoom);
             btnJoinRandomRoom.onClick.AddListener(JoinRandomRoom);
-        }
+        } 
+        #endregion
 
         /// <summary>
         /// 建立房間
@@ -101,31 +122,31 @@ namespace KID
         /// </summary>
         private void JoinRandomRoom()
         {
-
+            PhotonNetwork.JoinRandomRoom();
         }
 
         /// <summary>
         /// 淡入
         /// </summary>
-        private IEnumerator Fade()
+        private IEnumerator Fade(CanvasGroup group, bool fadeIn = true)
         {
+            float increase = fadeIn ? +0.1f : -0.1f;
+
             for (int i = 0; i < 10; i++)
             {
-                groupBlackAndTip.alpha -= 0.1f;
+                group.alpha += increase;
                 yield return null;
             }
 
-            groupBlackAndTip.interactable = false;
-            groupBlackAndTip.blocksRaycasts = false;
+            group.interactable = fadeIn;
+            group.blocksRaycasts = fadeIn;
         }
 
         public override void OnConnectedToMaster()
         {
             base.OnConnectedToMaster();
-
             print("<color=yellow>連線至伺服器。</color>");
-
-            StartCoroutine(Fade());
+            StartCoroutine(Fade(groupBlackAndTip, false));
         }
 
         public override void OnCreatedRoom()
@@ -138,6 +159,7 @@ namespace KID
         {
             base.OnJoinedRoom();
             print($"<color=#6600ff>加入 {PhotonNetwork.CurrentRoom.Name} 房間成功。</color>");
+            StartCoroutine(Fade(groupRoom, true));
         }
     }
 }
