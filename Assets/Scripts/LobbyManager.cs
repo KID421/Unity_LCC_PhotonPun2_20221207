@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
@@ -8,11 +8,11 @@ using System.Collections;
 namespace KID
 {
     /// <summary>
-    /// ¤jÆUºŞ²z¾¹
+    /// å¤§å»³ç®¡ç†å™¨
     /// </summary>
     public class LobbyManager : MonoBehaviourPunCallbacks
     {
-        #region ¤jÆU¸ê®Æ
+        #region å¤§å»³è³‡æ–™
         private TMP_InputField inputFieldPlayerName;
         private TMP_InputField inputFieldCreateRoomName;
         private TMP_InputField inputFieldJoinRoomName;
@@ -30,9 +30,9 @@ namespace KID
         private Transform traPlayerList;
         private Button btnLeaveRoom;
 
-        [SerializeField, Header("©Ğ¶¡³Ì¤j¤H¼Æ"), Range(2, 20)]
+        [SerializeField, Header("æˆ¿é–“æœ€å¤§äººæ•¸"), Range(2, 20)]
         private byte maxPlayer = 10;
-        [SerializeField, Header("¤å¦r©Ğ¶¡¤ºª±®a")]
+        [SerializeField, Header("æ–‡å­—æˆ¿é–“å…§ç©å®¶")]
         private GameObject goTextPlayerInRoom;
 
         private void Awake()
@@ -44,36 +44,36 @@ namespace KID
         }
 
         /// <summary>
-        /// ´M§ä©Ğ¶¡ª«¥ó
+        /// å°‹æ‰¾æˆ¿é–“ç‰©ä»¶
         /// </summary>
         private void FindRoomOjbect()
         {
-            groupRoom = GameObject.Find("µe¥¬©Ğ¶¡").GetComponent<CanvasGroup>();
-            textRoomName = GameObject.Find("¤å¦r©Ğ¶¡¦WºÙ").GetComponent<TextMeshProUGUI>();
-            traPlayerList = GameObject.Find("ª±®a¦WºÙ²M³æ").transform;
-            btnLeaveRoom = GameObject.Find("«ö¶s°h¥X©Ğ¶¡").GetComponent<Button>();
+            groupRoom = GameObject.Find("ç•«å¸ƒæˆ¿é–“").GetComponent<CanvasGroup>();
+            textRoomName = GameObject.Find("æ–‡å­—æˆ¿é–“åç¨±").GetComponent<TextMeshProUGUI>();
+            traPlayerList = GameObject.Find("ç©å®¶åç¨±æ¸…å–®").transform;
+            btnLeaveRoom = GameObject.Find("æŒ‰éˆ•é€€å‡ºæˆ¿é–“").GetComponent<Button>();
         }
 
-        #region ¤jÆUª«¥ó³B²z
+        #region å¤§å»³ç‰©ä»¶è™•ç†
         /// <summary>
-        /// ´M§ä¤jÆUª«¥ó
+        /// å°‹æ‰¾å¤§å»³ç‰©ä»¶
         /// </summary>
         private void FindLobbyObject()
         {
-            inputFieldPlayerName = GameObject.Find("¿é¤JÄæ¦ìª±®a¦WºÙ").GetComponent<TMP_InputField>();
-            inputFieldCreateRoomName = GameObject.Find("¿é¤JÄæ¦ì³Ğ«Ø©Ğ¶¡¦WºÙ").GetComponent<TMP_InputField>();
-            inputFieldJoinRoomName = GameObject.Find("¿é¤JÄæ¦ì¥[¤J©Ğ¶¡¦WºÙ").GetComponent<TMP_InputField>();
-            btnCreateRoom = GameObject.Find("«ö¶s³Ğ«Ø©Ğ¶¡").GetComponent<Button>();
-            btnJoinRoom = GameObject.Find("«ö¶s¥[¤J©Ğ¶¡").GetComponent<Button>();
-            btnJoinRandomRoom = GameObject.Find("«ö¶s¥[¤JÀH¾÷©Ğ¶¡").GetComponent<Button>();
-            groupBlackAndTip = GameObject.Find("¶Â¦â©³¹Ï").GetComponent<CanvasGroup>();
+            inputFieldPlayerName = GameObject.Find("è¼¸å…¥æ¬„ä½ç©å®¶åç¨±").GetComponent<TMP_InputField>();
+            inputFieldCreateRoomName = GameObject.Find("è¼¸å…¥æ¬„ä½å‰µå»ºæˆ¿é–“åç¨±").GetComponent<TMP_InputField>();
+            inputFieldJoinRoomName = GameObject.Find("è¼¸å…¥æ¬„ä½åŠ å…¥æˆ¿é–“åç¨±").GetComponent<TMP_InputField>();
+            btnCreateRoom = GameObject.Find("æŒ‰éˆ•å‰µå»ºæˆ¿é–“").GetComponent<Button>();
+            btnJoinRoom = GameObject.Find("æŒ‰éˆ•åŠ å…¥æˆ¿é–“").GetComponent<Button>();
+            btnJoinRandomRoom = GameObject.Find("æŒ‰éˆ•åŠ å…¥éš¨æ©Ÿæˆ¿é–“").GetComponent<Button>();
+            groupBlackAndTip = GameObject.Find("é»‘è‰²åº•åœ–").GetComponent<CanvasGroup>();
 
             GetInputFieldText();
             LobbyButtonClickEvent();
         }
 
         /// <summary>
-        /// ¨ú±o¿é¤JÄæ¦ìªº¤å¦r
+        /// å–å¾—è¼¸å…¥æ¬„ä½çš„æ–‡å­—
         /// </summary>
         private void GetInputFieldText()
         {
@@ -81,7 +81,7 @@ namespace KID
             {
                 namePlayerName = input;
                 PhotonNetwork.NickName = namePlayerName;
-                print($"<color=#ff0066>ª±®a¦WºÙ¡G{PhotonNetwork.NickName}</color>");
+                print($"<color=#ff0066>ç©å®¶åç¨±ï¼š{PhotonNetwork.NickName}</color>");
             });
 
             inputFieldCreateRoomName.onEndEdit.AddListener((input) => nameCreateRoom = input);
@@ -89,7 +89,7 @@ namespace KID
         }
 
         /// <summary>
-        /// «ö¶sÂIÀ»¨Æ¥ó
+        /// æŒ‰éˆ•é»æ“Šäº‹ä»¶
         /// </summary>
         private void LobbyButtonClickEvent()
         {
@@ -100,7 +100,7 @@ namespace KID
         #endregion
 
         /// <summary>
-        /// «Ø¥ß©Ğ¶¡
+        /// å»ºç«‹æˆ¿é–“
         /// </summary>
         private void CreateRoom()
         {
@@ -110,7 +110,7 @@ namespace KID
         }
 
         /// <summary>
-        /// ¥[¤J©Ğ¶¡
+        /// åŠ å…¥æˆ¿é–“
         /// </summary>
         private void JoinRoom()
         {
@@ -118,7 +118,7 @@ namespace KID
         }
 
         /// <summary>
-        /// ¥[¤JÀH¾÷©Ğ¶¡
+        /// åŠ å…¥éš¨æ©Ÿæˆ¿é–“
         /// </summary>
         private void JoinRandomRoom()
         {
@@ -126,7 +126,7 @@ namespace KID
         }
 
         /// <summary>
-        /// ²H¤J
+        /// æ·¡å…¥
         /// </summary>
         private IEnumerator Fade(CanvasGroup group, bool fadeIn = true)
         {
@@ -145,20 +145,20 @@ namespace KID
         public override void OnConnectedToMaster()
         {
             base.OnConnectedToMaster();
-            print("<color=yellow>³s½u¦Ü¦øªA¾¹¡C</color>");
+            print("<color=yellow>é€£ç·šè‡³ä¼ºæœå™¨ã€‚</color>");
             StartCoroutine(Fade(groupBlackAndTip, false));
         }
 
         public override void OnCreatedRoom()
         {
             base.OnCreatedRoom();
-            print($"<color=#6600ff>«Ø¥ß {PhotonNetwork.CurrentRoom.Name} ©Ğ¶¡¦¨¥\¡C</color>");
+            print($"<color=#6600ff>å»ºç«‹ {PhotonNetwork.CurrentRoom.Name} æˆ¿é–“æˆåŠŸã€‚</color>");
         }
 
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
-            print($"<color=#6600ff>¥[¤J {PhotonNetwork.CurrentRoom.Name} ©Ğ¶¡¦¨¥\¡C</color>");
+            print($"<color=#6600ff>åŠ å…¥ {PhotonNetwork.CurrentRoom.Name} æˆ¿é–“æˆåŠŸã€‚</color>");
             StartCoroutine(Fade(groupRoom, true));
         }
     }
